@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, Image, Animated, Dimensions } from "react-native";
 import { GestureHandlerStateChangeEvent, PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
+import MovieDetails from "../components/MovieDetails";
 
 export default function Index() {
   const [translateX] = useState(new Animated.Value(0)); // Horizontal movement
@@ -86,6 +87,7 @@ export default function Index() {
         </Animated.View>
       </PanGestureHandler>
 
+      <MovieDetails movieTitle="Iron Man" />
 
     </View>
   );
