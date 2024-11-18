@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "nutrition-app",
-    "slug": "nutrition-app",
+    "name": "movie-swipe",
+    "slug": "movie-swipe",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
