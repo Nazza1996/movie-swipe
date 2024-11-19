@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Text, View, StyleSheet, Image, Animated, Dimensions } from "react-native";
 import { GestureHandlerStateChangeEvent, PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
 import MovieDetails from "../components/MovieDetails";
+import MovieList from "../components/MovieList";
 
 export default function Index() {
   const [translateX] = useState(new Animated.Value(0)); // Horizontal movement
@@ -61,34 +62,7 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-      <PanGestureHandler onGestureEvent={handleGesture} onEnded={handleGestureEnd}>
-        <Animated.View
-          style={[
-            styles.card,
-            {
-              transform: [
-                { translateX },
-                { translateY },
-                { rotate: translateX.interpolate({
-                    inputRange: [-200, 0, 200],
-                    outputRange: ["-10deg", "0deg", "10deg"],
-                  }),
-                },
-              ],
-            },
-          ]}
-        >
-          <Image
-            source={{
-              uri: "https://media.themoviedb.org/t/p/w300_and_h450_bestv2/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",
-            }}
-            style={styles.poster}
-          />
-        </Animated.View>
-      </PanGestureHandler>
-
-      <MovieDetails movieTitle="Iron Man" />
-
+      <MovieList />
     </View>
   );
 }
