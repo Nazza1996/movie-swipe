@@ -3,11 +3,21 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import SlidingUpPanel from "rn-sliding-up-panel";
-import CastPoster from "@/components/castPoster";
 import Cast from "@/components/Cast";
 
 function formatDateString(date: string) {
   return new Date(date).toDateString().split(" ").slice(1).join(" ");
+}
+
+function minutesToHours(minutes: number) {
+  let hours = Math.floor(minutes / 60);
+  let remainingMinutes = minutes % 60;
+
+  return `${hours}h ${remainingMinutes}m`;
+}
+
+function formatNumber(number: number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 const MovieDetails = ({ movie }: { movie: any }) => {
@@ -17,7 +27,6 @@ const MovieDetails = ({ movie }: { movie: any }) => {
   } else {
     const panelRef = useRef<any>(null); // Ref to control panel methods
     const [panelState, setPanelState] = useState("closed");
-    const [isScrolling, setIsScrolling] = useState(false);
 
     const togglePanel = async () => {
       if (panelRef.current) {
@@ -39,41 +48,60 @@ const MovieDetails = ({ movie }: { movie: any }) => {
       }
     };
 
-    const handleScrollBegin = () => setIsScrolling(true);
-    const handleScrollEnd = () => setIsScrolling(false);
-
     let genres = movie.genre.map((genre: any) => genre.name).join(", ");
     let directors = movie.crew.filter((crew: any) => crew.job === "Director").map((director: any) => director.name).join(", ") || "N/A";
+    let production_companies = movie.production_companies.map((company: any) => company.name).join(", ");
 
     return (
       <View style={styles.container}>
         {/* Sliding Panel for movie details */}
         <SlidingUpPanel
           ref={panelRef} // Assigning the ref to control it programmatically
-          draggableRange={{ top: 700, bottom: 100 }} // Set how far the panel can slide
-          snappingPoints={[30, 300, 700]} // Points where the panel will snap to
-          height={700} // Maximum height of the panel
+          draggableRange={{ top: 600, bottom: 150 }} // Set how far the panel can slide
+          snappingPoints={[30, 300, 600]} // Points where the panel will snap to
+          height={600} // Maximum height of the panel
           backdropOpacity={0.3} // Set backdrop opacity for the area outside the panel
           onMomentumDragEnd={handlePanelDragEnd} // Handle drag end event
-          allowDragging={!isScrolling} // Disable dragging if the user is scrolling
         >
+
+          {dragHandler => (
           <View style={styles.detailsContainer}>
+
+            <View style={styles.dragHandler} {...dragHandler} />
+            <View style={styles.dragHandler2} {...dragHandler} />
+
             <TouchableOpacity onPress={togglePanel}>
               <Text style={styles.movieName}>{movie.title}</Text>
             </TouchableOpacity>
 
-            <Text style={styles.detailsTitle}>Director</Text>
-            <Text style={styles.detailsText}>{directors || "N/A"}</Text>
+            <ScrollView>
+              <Text style={styles.detailsTitle}>Overview</Text>
+              <Text style={styles.detailsText}>{movie.overview}</Text>
 
-            <Text style={styles.detailsTitle}>Release Date</Text>
-            <Text style={styles.detailsText}>{formatDateString(movie.release) || "N/A"}</Text>
+              <Text style={styles.detailsTitle}>{movie.crew.filter((crew: any) => crew.job === "Director").length === 1 ? "Director" : "Directors"}</Text>
+              <Text style={styles.detailsText}>{directors || "N/A"}</Text>
 
-            <Text style={styles.detailsTitle}>Genre</Text>
-            <Text style={styles.detailsText}>{genres || "N/A"}</Text>
+              <Text style={styles.detailsTitle}>Release Date</Text>
+              <Text style={styles.detailsText}>{formatDateString(movie.release) || "N/A"}</Text>
 
-            <Text style={styles.detailsTitle}>Cast</Text>
-            <Cast cast={movie.cast} onScrollBegin={handleScrollBegin} onScrollEnd={handleScrollEnd}></Cast>
+              <Text style={styles.detailsTitle}>{movie.genre.length === 1 ? "Genre" : "Genres"}</Text>
+              <Text style={styles.detailsText}>{genres || "N/A"}</Text>
+
+              <Text style={styles.detailsTitle}>Runtime</Text>
+              <Text style={styles.detailsText}>{minutesToHours(movie.runtime) || "N/A"}</Text>
+
+              <Text style={styles.detailsTitle}>Revenue</Text>
+              <Text style={styles.detailsText}>${formatNumber(movie.revenue) || "N/A"}</Text>
+
+              <Text style={styles.detailsTitle}>Top Billed Cast</Text>
+              <Cast cast={movie.cast}></Cast>
+
+              <Text style={styles.detailsTitle}>Production {movie.production_companies.length === 1 ? "Company" : "Companies"}</Text>
+              <Text style={styles.detailsText}>{production_companies || "N/A"}</Text>
+            </ScrollView>
           </View>
+          )}
+
         </SlidingUpPanel>
       </View>
     );
@@ -94,7 +122,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontVariant: ["small-caps"], // Make text look weird and cool
     alignSelf: "flex-start",
-    marginBottom: 20,
+    marginBottom: 50,
+    marginTop: -20,
   },
   detailsContainer: {
     backgroundColor: "#2c2b3f",
@@ -104,7 +133,7 @@ const styles = StyleSheet.create({
     width: "100%",
     elevation: 5,
     position: "absolute",
-    height: 700,
+    height: 600,
   },
   detailsTitle: {
     color: "#fff",
@@ -118,6 +147,22 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
   },
+  dragHandler: {
+    height: 40,
+    width: "200%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: -20,
+    left: -20,
+  },
+  dragHandler2: {
+    height: 40,
+    width: "30%",
+    position: 'absolute',
+    right: 0,
+    top: 40,
+    zIndex: 1,
+  }
 });
 
 export default MovieDetails;

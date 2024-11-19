@@ -11,59 +11,83 @@ const movies = [
   {
     id: 1,
     title: "Iron Man",
+    overview: "N/A",
     release: "N/A",
     genre: ["N/A"],
     cast: ["N/A"],
     crew: ["N/A"],
     poster: "",
+    runtime: "",
+    revenue: "",
+    production_companies: ["N/A"],
   },
   {
     id: 2,
     title: "Man of Steel",
+    overview: "N/A",
     release: "N/A",
     genre: ["N/A"],
     cast: ["N/A"],
     crew: ["N/A"],
     poster: "",
+    runtime: "",
+    revenue: "",
+    production_companies: ["N/A"],
   },
   {
     id: 3,
     title: "Avengers Endgame",
+    overview: "N/A",
     release: "N/A",
     genre: ["N/A"],
     cast: ["N/A"],
     crew: ["N/A"],
     poster: "",
+    runtime: "",
+    revenue: "",
+    production_companies: ["N/A"],
   },
   {
     id: 4,
     title: "Harry Potter and The Philosopher's Stone",
+    overview: "N/A",
     release: "N/A",
     genre: ["N/A"],
     cast: ["N/A"],
     crew: ["N/A"],
     poster: "",
+    runtime: "",
+    revenue: "",
+    production_companies: ["N/A"],
   },
   {
     id: 5,
     title: "Dune part 2",
+    overview: "N/A",
     release: "N/A",
     genre: ["N/A"],
     cast: ["N/A"],
     crew: ["N/A"],
     poster: "",
+    runtime: "",
+    revenue: "",
+    production_companies: ["N/A"],
   },
 ];
 
 movies.push({
   id: 0,
   title: "Placeholder",
+  overview: "N/A",
   release: "N/A",
   genre: ["N/A"],
   cast: ["N/A"],
   crew: ["N/A"],
   poster:
     "https://www.themoviedb.org/t/p/original/2cxhvwyEwRlysAmRH4iodkvo0z5.jpg",
+  runtime: "",
+  revenue: "",
+  production_companies: ["N/A"],
 });
 
 const MovieList = () => {
@@ -84,11 +108,15 @@ const MovieList = () => {
 
             return {
               ...movie,
+              overview: details.overview || "N/A",
               genre: details.genres || "N/A",
               release: details.release_date || "N/A",
               cast: credits.cast || "N/A",
               crew: credits.crew || "N/A",
               poster: details.poster_path || "",
+              runtime: details.runtime || "N/A",
+              revenue: details.revenue || "N/A",
+              production_companies: details.production_companies || "N/A",
             };
           } else {
             return movie;
@@ -177,9 +205,9 @@ const MovieList = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={restart}>
+      {/* <TouchableOpacity onPress={restart}>
         <Text style={{color: "white", fontSize: 30, fontWeight: "bold"}}>Restart List</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <PanGestureHandler
         onGestureEvent={handleGesture}
         onEnded={handleGestureEnd}
