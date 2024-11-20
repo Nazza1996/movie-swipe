@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Image, Animated, Dimensions } from "react-native";
+import { View, StyleSheet, Image, Animated, Dimensions, TouchableOpacity } from "react-native";
 import MovieDetails from "../components/MovieDetails";
 import {
   GestureHandlerStateChangeEvent,
@@ -113,9 +113,24 @@ const MovieList = () => {
     });
   };
 
-  const restart = () => {
-    setCurrentIndex(0);
-  };
+  const tickColor = translateX.interpolate({
+    inputRange: [-1, 0, Dimensions.get("window").width / 2, Dimensions.get("window").width],
+    outputRange: ["#2c2b3f", "#2c2b3f", "green", "green"],
+    extrapolateLeft: "clamp",
+  });
+  
+  const xColor = translateX.interpolate({
+    inputRange: [-Dimensions.get("window").width, -Dimensions.get("window").width / 2, 0, 1],
+    outputRange: ["red", "red", "#2c2b3f", "#2c2b3f"],
+
+  });
+
+
+  const undo = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  }
 
   if (movieData.length === 0) {
     return null;
@@ -125,9 +140,13 @@ const MovieList = () => {
 
   return (
     <View style={styles.container}>
-      {/* <TouchableOpacity onPress={restart}>
-        <Text style={{color: "white", fontSize: 30, fontWeight: "bold"}}>Restart List</Text>
-      </TouchableOpacity> */}
+
+      {/* Tick Icon */}
+      <View>
+        <Animated.Image source={require("@/assets/images/tick-icon.png")} style={[styles.tickIcon, {tintColor: tickColor}]}></Animated.Image>
+        <Animated.Image source={require("@/assets/images/x-icon.png")} style={[styles.xIcon, {tintColor: xColor}]}></Animated.Image>
+      </View>
+
       <PanGestureHandler
         onGestureEvent={handleGesture}
         onEnded={handleGestureEnd}
@@ -158,12 +177,17 @@ const MovieList = () => {
         </Animated.View>
       </PanGestureHandler>
 
+      {/* Undo Button */}
+      <TouchableOpacity onPress={undo}>
+            <Image source={require("@/assets/images/undo.png")} style={styles.undoButton}></Image>
+      </TouchableOpacity>
+
       <MovieDetails movie={currentMovie}></MovieDetails>
     </View>
   );
 };
 
-const POSTER_WIDTH = 250;
+const POSTER_WIDTH = 200;
 const POSTER_HEIGHT = (POSTER_WIDTH / 6) * 9;
 
 const styles = StyleSheet.create({
@@ -174,10 +198,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   card: {
-    padding: 30,
+    padding: 20,
     backgroundColor: "#2c2b3f",
     borderRadius: 10,
     alignItems: "center",
+    zIndex: 1,
   },
   poster: {
     width: POSTER_WIDTH,
@@ -190,6 +215,30 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+  undoButton: {
+    width: 50,
+    height: 50,
+    marginTop: 20,
+    backgroundColor: "#2c2b3f",
+    padding: 10,
+    borderRadius: 30,
+  },
+  tickIcon: {
+    width: 50,
+    height: 50,
+    position: "absolute",
+    right: -180,
+    top: 420,
+    tintColor: "#2c2b3f",
+  },
+  xIcon: {
+    width: 45,
+    height: 45,
+    tintColor: "#2c2b3f",
+    position: "absolute",
+    left: -180,
+    top: 420,
+  }
 });
 
 export default MovieList;
