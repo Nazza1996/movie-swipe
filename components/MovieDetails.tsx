@@ -68,7 +68,9 @@ const MovieDetails = ({ movie }: { movie: any }) => {
           {dragHandler => (
           <View style={styles.detailsContainer}>
 
-            <View style={styles.dragHandler} {...dragHandler} />
+            <View style={styles.dragHandler} {...dragHandler}>
+              <View style={styles.touchBarIcon} />
+            </View>
             <View style={styles.dragHandler2} {...dragHandler} />
 
             <TouchableOpacity onPress={togglePanel}>
@@ -125,6 +127,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: "100%",
+    zIndex: 100,
   },
   movieName: {
     color: "#fff",
@@ -168,18 +171,17 @@ const styles = StyleSheet.create({
   },
   dragHandler: {
     height: 40,
-    width: "200%",
+    width: "100%",
     alignItems: 'center',
     justifyContent: 'center',
     top: -20,
     left: -20,
   },
   dragHandler2: {
-    height: 40,
+    height: 100,
     width: "30%",
     position: 'absolute',
     right: 0,
-    top: 40,
     zIndex: 1,
   },
   ratingLogo: {
@@ -187,6 +189,15 @@ const styles = StyleSheet.create({
     height: 26,
     marginBottom: 10,
     marginRight: 10,
+  },
+  touchBarIcon: {
+    width: "90%",
+    height: 5,
+    backgroundColor: "#38374f",
+    borderRadius: 5,
+    position: "absolute",
+    left: "50%",
+    marginLeft: "-40%",
   },
 });
 
