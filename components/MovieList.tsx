@@ -89,8 +89,7 @@ movies.push({
   genre: ["N/A"],
   cast: ["N/A"],
   crew: ["N/A"],
-  poster:
-    "https://www.themoviedb.org/t/p/original/2cxhvwyEwRlysAmRH4iodkvo0z5.jpg",
+  poster: "https://www.huber-online.com/daisy_website_files/_processed_/8/0/csm_no-image_d5c4ab1322.jpg",
   runtime: "",
   revenue: "",
   production_companies: ["N/A"],
@@ -120,7 +119,7 @@ const MovieList = () => {
               release: details.release_date || "N/A",
               cast: credits.cast || "N/A",
               crew: credits.crew || "N/A",
-              poster: details.poster_path || "",
+              poster: `https://media.themoviedb.org/t/p/original${details.poster_path}` || "https://www.huber-online.com/daisy_website_files/_processed_/8/0/csm_no-image_d5c4ab1322.jpg",
               runtime: details.runtime || "N/A",
               revenue: details.revenue || "N/A",
               production_companies: details.production_companies || "N/A",
@@ -238,7 +237,7 @@ const MovieList = () => {
         >
           <Image
             source={{
-              uri: `https://media.themoviedb.org/t/p/original${currentMovie.poster}`,
+              uri: `${currentMovie.poster}`,
             }}
             style={styles.poster}
           />
