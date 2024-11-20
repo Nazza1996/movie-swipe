@@ -11,6 +11,7 @@ const movies = [
   {
     id: 1,
     title: "Iron Man",
+    tagline: "",
     overview: "N/A",
     release: "N/A",
     genre: ["N/A"],
@@ -24,6 +25,7 @@ const movies = [
   {
     id: 2,
     title: "Man of Steel",
+    tagline: "",
     overview: "N/A",
     release: "N/A",
     genre: ["N/A"],
@@ -37,6 +39,7 @@ const movies = [
   {
     id: 3,
     title: "Avengers Endgame",
+    tagline: "",
     overview: "N/A",
     release: "N/A",
     genre: ["N/A"],
@@ -50,6 +53,7 @@ const movies = [
   {
     id: 4,
     title: "Harry Potter and The Philosopher's Stone",
+    tagline: "",
     overview: "N/A",
     release: "N/A",
     genre: ["N/A"],
@@ -63,6 +67,7 @@ const movies = [
   {
     id: 5,
     title: "Dune part 2",
+    tagline: "",
     overview: "N/A",
     release: "N/A",
     genre: ["N/A"],
@@ -78,6 +83,7 @@ const movies = [
 movies.push({
   id: 0,
   title: "Placeholder",
+  tagline: "",
   overview: "N/A",
   release: "N/A",
   genre: ["N/A"],
@@ -108,6 +114,7 @@ const MovieList = () => {
 
             return {
               ...movie,
+              tagline: details.tagline || "",
               overview: details.overview || "N/A",
               genre: details.genres || "N/A",
               release: details.release_date || "N/A",

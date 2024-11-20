@@ -57,11 +57,12 @@ const MovieDetails = ({ movie }: { movie: any }) => {
         {/* Sliding Panel for movie details */}
         <SlidingUpPanel
           ref={panelRef} // Assigning the ref to control it programmatically
-          draggableRange={{ top: 600, bottom: 150 }} // Set how far the panel can slide
-          snappingPoints={[30, 300, 600]} // Points where the panel will snap to
-          height={600} // Maximum height of the panel
+          draggableRange={{ top: 700, bottom: 150 }} // Set how far the panel can slide
+          snappingPoints={[30, 450, 700]} // Points where the panel will snap to
+          height={700} // Maximum height of the panel
           backdropOpacity={0.3} // Set backdrop opacity for the area outside the panel
           onMomentumDragEnd={handlePanelDragEnd} // Handle drag end event
+          friction={3.5} // Set friction for the panel
         >
 
           {dragHandler => (
@@ -73,6 +74,8 @@ const MovieDetails = ({ movie }: { movie: any }) => {
             <TouchableOpacity onPress={togglePanel}>
               <Text style={styles.movieName}>{movie.title}</Text>
             </TouchableOpacity>
+
+            <Text style={styles.tagline}>{movie.tagline || ""}</Text>
 
             <ScrollView>
               <Text style={styles.detailsTitle}>Overview</Text>
@@ -122,8 +125,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontVariant: ["small-caps"], // Make text look weird and cool
     alignSelf: "flex-start",
-    marginBottom: 50,
+    // marginBottom: 50,
     marginTop: -20,
+    // backgroundColor: "#ffffff",
+  },
+  tagline: {
+    color: "#fff",
+    fontSize: 16,
+    fontStyle: "italic",
+    opacity: 0.7,
+    fontFamily: "verdana",
+    marginBottom: 30,
   },
   detailsContainer: {
     backgroundColor: "#2c2b3f",
@@ -133,7 +145,7 @@ const styles = StyleSheet.create({
     width: "100%",
     elevation: 5,
     position: "absolute",
-    height: 600,
+    height: 700,
   },
   detailsTitle: {
     color: "#fff",
