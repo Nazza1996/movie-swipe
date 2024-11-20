@@ -13,6 +13,11 @@ const MovieList = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [movieData, setMovieData] = useState<any[]>([]); // To store preloaded movie data
+  const [allActions, setAllActions] = useState<any>([]); // To store all actions (likes, dislikes, etc.) for undo functionality
+
+  const [likedList, setLikedList] = useState<any>([]); // To store liked movies
+  const [dislikedList, setDislikedList] = useState<any>([]); // To store disliked movies
+  
 
   // Preload all movie data when the app starts
   useEffect(() => {
@@ -95,6 +100,12 @@ const MovieList = () => {
       duration: 200,
       useNativeDriver: true,
     }).start(() => {
+
+      likedList.push(movieData[currentIndex].title);
+      console.log(likedList);
+
+      setAllActions([...allActions, "like"]); // Store all actions for undo functionality
+
       // Update current index after swipe animation finishes
       nextMovie({ direction: "right" });
       resetPosition(); // Reset the position of the card
@@ -107,6 +118,12 @@ const MovieList = () => {
       duration: 200,
       useNativeDriver: true,
     }).start(() => {
+
+      dislikedList.push(movieData[currentIndex].title);
+      console.log(dislikedList);
+
+      setAllActions([...allActions, "dislike"]); // Store all actions for undo functionality
+
       // Update current index after swipe animation finishes
       nextMovie({ direction: "left" });
       resetPosition(); // Reset the position of the card
@@ -129,6 +146,9 @@ const MovieList = () => {
   const undo = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
+      const lastAction = allActions[allActions.length - 1];
+      lastAction === "like" ? likedList.pop() : dislikedList.pop();
+      setAllActions(allActions.slice(0, -1));
     }
   }
 
