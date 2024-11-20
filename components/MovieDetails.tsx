@@ -96,6 +96,13 @@ const MovieDetails = ({ movie }: { movie: any }) => {
               <Text style={styles.detailsTitle}>Revenue</Text>
               <Text style={styles.detailsText}>${formatNumber(movie.revenue) || "N/A"}</Text>
 
+              <Text style={styles.detailsTitle}>Rating</Text>
+              
+              <View style={{flexDirection: "row"}}>
+                <Image style={styles.ratingLogo} source={require('../assets/images/tmdbLogo.png')} />
+                <Text style={styles.detailsText}>{(movie.vote_average*10).toFixed(0)}%</Text>
+              </View>
+
               <Text style={styles.detailsTitle}>Top Billed Cast</Text>
               <Cast cast={movie.cast}></Cast>
 
@@ -174,7 +181,13 @@ const styles = StyleSheet.create({
     right: 0,
     top: 40,
     zIndex: 1,
-  }
+  },
+  ratingLogo: {
+    width: 37,
+    height: 26,
+    marginBottom: 10,
+    marginRight: 10,
+  },
 });
 
 export default MovieDetails;
