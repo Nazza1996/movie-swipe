@@ -141,10 +141,17 @@ const MovieList = () => {
   return (
     <View style={styles.container}>
 
-      {/* Tick Icon */}
       <View>
-        <Animated.Image source={require("@/assets/images/tick-icon.png")} style={[styles.tickIcon, {tintColor: tickColor}]}></Animated.Image>
-        <Animated.Image source={require("@/assets/images/x-icon.png")} style={[styles.xIcon, {tintColor: xColor}]}></Animated.Image>
+        {/* Tick Icon / Swipe Right */}
+        <TouchableOpacity onPress={swipeRight}>
+          <Animated.Image source={require("@/assets/images/tick-icon.png")} style={[styles.tickIcon, {tintColor: tickColor}]}></Animated.Image>
+        </TouchableOpacity>
+
+        {/* X Icon / Swipe Left */}
+        <TouchableOpacity onPress={swipeLeft}>
+          <Animated.Image source={require("@/assets/images/x-icon.png")} style={[styles.xIcon, {tintColor: xColor}]}></Animated.Image>
+        </TouchableOpacity>
+
       </View>
 
       <PanGestureHandler

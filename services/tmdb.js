@@ -124,3 +124,24 @@ export const getPopularMovies = async () => {
         throw error;
     }
 };
+
+export const multiSearch = async (query) => {
+    try {
+        const searchResponse = await axios.get(`${TMDB_API_URL}/search/multi`, {
+            params: {
+                api_key: API_KEY,
+                query: query
+            },
+        });
+
+        if (!searchResponse) {
+            throw new Error("Search results not found");
+        }
+
+        return searchResponse.data.results;
+
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};

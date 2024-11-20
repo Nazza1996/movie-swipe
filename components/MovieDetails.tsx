@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -48,6 +48,11 @@ const MovieDetails = ({ movie }: { movie: any }) => {
       }
     };
 
+    const scrollViewRef = useRef<ScrollView>(null);
+    useEffect(() => {
+      scrollViewRef.current?.scrollTo({ y: 0, animated: false });
+    }, [movie]);
+
     let genres = movie.genre.map((genre: any) => genre.name).join(", ");
     let directors = movie.crew.filter((crew: any) => crew.job === "Director").map((director: any) => director.name).join(", ") || "N/A";
     let production_companies = movie.production_companies.map((company: any) => company.name).join(", ");
@@ -79,7 +84,7 @@ const MovieDetails = ({ movie }: { movie: any }) => {
 
             <Text style={styles.tagline}>{movie.tagline || ""}</Text>
 
-            <ScrollView>
+            <ScrollView ref={scrollViewRef}>
               <Text style={styles.detailsTitle}>Overview</Text>
               <Text style={styles.detailsText}>{movie.overview}</Text>
 

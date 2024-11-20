@@ -1,12 +1,38 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import MovieList from "../components/MovieList";
+import { StyleSheet } from "react-native";
+import HomeScreen from "@/pages/HomeScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import SearchResults from "@/pages/SearchResults";
+
+const Stack = createNativeStackNavigator();
+
+export type RootStackParamList = {
+  Home: undefined;
+  SearchResults: { search: string };
+};
+
+const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export default function Index() {
   return (
-    <View style={styles.container}>
-      <MovieList />
-    </View>
+    <RootStack.Navigator initialRouteName="Home">
+      <RootStack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <RootStack.Screen 
+        name="SearchResults" 
+        component={SearchResults}
+        options={{
+          title: "Search Results",
+          headerStyle: { backgroundColor: "#38374f" },
+          headerTitleStyle: { color: "#fff" },
+        }}
+      />
+    </RootStack.Navigator>
   );
 }
 
@@ -36,5 +62,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
-  }
+  },
 });
