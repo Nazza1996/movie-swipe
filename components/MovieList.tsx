@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Image, Animated, Dimensions, TouchableOpacity, Text } from "react-native";
+import { View, StyleSheet, Image, Animated, Dimensions } from "react-native";
 import MovieDetails from "../components/MovieDetails";
 import {
   GestureHandlerStateChangeEvent,

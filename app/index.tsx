@@ -1,65 +1,8 @@
-import React, { useState } from "react";
-import { Text, View, StyleSheet, Image, Animated, Dimensions } from "react-native";
-import { GestureHandlerStateChangeEvent, PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
-import MovieDetails from "../components/MovieDetails";
+import React from "react";
+import { View, StyleSheet } from "react-native";
 import MovieList from "../components/MovieList";
 
 export default function Index() {
-  const [translateX] = useState(new Animated.Value(0)); // Horizontal movement
-  const [translateY] = useState(new Animated.Value(0)); // Vertical movement
-
-  const handleGesture = Animated.event(
-    [{ nativeEvent: { translationX: translateX, translationY: translateY } }],
-    { useNativeDriver: true }
-  );
-
-  const handleGestureEnd = (event: GestureHandlerStateChangeEvent) => {
-    const { translationX } = event.nativeEvent as any;
-
-    if (translationX > 100) {
-      console.log("Liked the movie!");
-      swipeRight();
-    } else if (translationX < -100) {
-      console.log("Skipped the movie!");
-      swipeLeft();
-    } else {
-      resetPosition(); // Snap back to center if not swiped enough
-    }
-  };
-
-  const resetPosition = () => {
-    Animated.timing(translateX, {
-      toValue: 0,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
-    Animated.timing(translateY, {
-      toValue: 0,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const swipeRight = () => {
-      Animated.timing(translateX, {
-        toValue: Dimensions.get("window").width + 1000,
-        duration: 200,
-        useNativeDriver: true,
-      }).start(() => {
-        resetPosition();
-      });
-  }
-
-  const swipeLeft = () => {
-      Animated.timing(translateX, {
-        toValue: Dimensions.get("window").width * -1 - 1000,
-        duration: 200,
-        useNativeDriver: true,
-      }).start(() => {
-      resetPosition();
-    });
-  }
-
   return (
     <View style={styles.container}>
       <MovieList />

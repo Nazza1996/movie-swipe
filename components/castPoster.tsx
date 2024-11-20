@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
-import { fetchPerson, fetchPersonImage } from "@/services/tmdb";
+import { fetchPersonImage } from "@/services/tmdb";
 
 const CastPoster = ({ person }: {person: any}) => {
     const [personImage, setPersonImage] = useState("https://www.huber-online.com/daisy_website_files/_processed_/8/0/csm_no-image_d5c4ab1322.jpg");

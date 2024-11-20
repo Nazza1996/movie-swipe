@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import CastPoster from "./castPoster";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView } from "react-native";
 
 const Cast = ({ cast }: { cast: any }) => {
   const MAX_CAST_MEMBERS = 15;
