@@ -187,7 +187,7 @@ const MovieList = () => {
   );
 };
 
-const POSTER_WIDTH = 200;
+const POSTER_WIDTH = 250;
 const POSTER_HEIGHT = (POSTER_WIDTH / 6) * 9;
 
 const styles = StyleSheet.create({
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     height: 50,
     position: "absolute",
     right: -180,
-    top: 420,
+    top: 450,
     tintColor: "#2c2b3f",
   },
   xIcon: {
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     tintColor: "#2c2b3f",
     position: "absolute",
     left: -180,
-    top: 420,
+    top: 450,
   }
 });
 
