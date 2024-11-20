@@ -5,95 +5,7 @@ import {
   GestureHandlerStateChangeEvent,
   PanGestureHandler,
 } from "react-native-gesture-handler";
-import { fetchMovieDetails, fetchMovieCredits } from "@/services/tmdb";
-
-const movies = [
-  {
-    id: 1,
-    title: "Iron Man",
-    tagline: "",
-    overview: "N/A",
-    release: "N/A",
-    genre: ["N/A"],
-    cast: ["N/A"],
-    crew: ["N/A"],
-    poster: "",
-    runtime: "",
-    revenue: "",
-    production_companies: ["N/A"],
-  },
-  {
-    id: 2,
-    title: "Man of Steel",
-    tagline: "",
-    overview: "N/A",
-    release: "N/A",
-    genre: ["N/A"],
-    cast: ["N/A"],
-    crew: ["N/A"],
-    poster: "",
-    runtime: "",
-    revenue: "",
-    production_companies: ["N/A"],
-  },
-  {
-    id: 3,
-    title: "Avengers Endgame",
-    tagline: "",
-    overview: "N/A",
-    release: "N/A",
-    genre: ["N/A"],
-    cast: ["N/A"],
-    crew: ["N/A"],
-    poster: "",
-    runtime: "",
-    revenue: "",
-    production_companies: ["N/A"],
-  },
-  {
-    id: 4,
-    title: "Harry Potter and The Philosopher's Stone",
-    tagline: "",
-    overview: "N/A",
-    release: "N/A",
-    genre: ["N/A"],
-    cast: ["N/A"],
-    crew: ["N/A"],
-    poster: "",
-    runtime: "",
-    revenue: "",
-    production_companies: ["N/A"],
-  },
-  {
-    id: 5,
-    title: "Dune part 2",
-    tagline: "",
-    overview: "N/A",
-    release: "N/A",
-    genre: ["N/A"],
-    cast: ["N/A"],
-    crew: ["N/A"],
-    poster: "",
-    runtime: "",
-    revenue: "",
-    production_companies: ["N/A"],
-  },
-];
-
-movies.push({
-  id: 0,
-  title: "Placeholder",
-  tagline: "",
-  overview: "N/A",
-  release: "N/A",
-  genre: ["N/A"],
-  cast: ["N/A"],
-  crew: ["N/A"],
-  poster: "https://www.huber-online.com/daisy_website_files/_processed_/8/0/csm_no-image_d5c4ab1322.jpg",
-  runtime: "",
-  revenue: "",
-  production_companies: ["N/A"],
-});
+import { fetchMovieDetails, fetchMovieCredits, getPopularMovies } from "@/services/tmdb";
 
 const MovieList = () => {
   const [translateX] = useState(new Animated.Value(0)); // Horizontal movement
@@ -105,8 +17,10 @@ const MovieList = () => {
   // Preload all movie data when the app starts
   useEffect(() => {
     const loadAllMovies = async () => {
+      const movies = await getPopularMovies();
+      movies.push({title: "Placeholder", id: 0, poster: "https://www.huber-online.com/daisy_website_files/_processed_/8/0/csm_no-image_d5c4ab1322.jpg"});
       const allMovies = await Promise.all(
-        movies.map(async (movie) => {
+        movies.map(async (movie: { id: number; title: any; }) => {
           if (movie.id !== 0) {
             const details = (await fetchMovieDetails(movie.title)).data;
             const credits = (await fetchMovieCredits(movie.title)).data;

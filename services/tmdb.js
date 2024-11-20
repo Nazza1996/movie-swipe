@@ -92,10 +92,35 @@ export const fetchPersonImage = async (personId) => {
             throw new Error("Images not found");
         }
 
-        return "https://image.tmdb.org/t/p/original" + images.data.profiles[0].file_path;
+        try {
+            return "https://image.tmdb.org/t/p/original" + images.data.profiles[0].file_path;
+        } catch (error) {
+            console.log("No images found for person with id " + personId + ". Using default image instead.");
+            return "https://www.huber-online.com/daisy_website_files/_processed_/8/0/csm_no-image_d5c4ab1322.jpg";
+        }
 
     } catch (error) {
         console.error(error);
         throw error;
     }
 }
+
+export const getPopularMovies = async () => {
+    try {
+        const popularMovies = await axios.get(`${TMDB_API_URL}/movie/popular`, {
+            params: {
+                api_key: API_KEY,
+            },
+        });
+
+        if (!popularMovies) {
+            throw new Error("Popular movies not found");
+        }
+
+        return popularMovies.data.results;
+
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
