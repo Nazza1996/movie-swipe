@@ -59,20 +59,26 @@ const MovieDetails = ({ movie }: { movie: any }) => {
 
     return (
       <View style={styles.container}>
+
+        {panelState === "open" && (
+          <TouchableOpacity onPress={togglePanel}>
+            <View style={styles.backdrop} />
+          </TouchableOpacity>
+        )}
+
         {/* Sliding Panel for movie details */}
         <SlidingUpPanel
           ref={panelRef} // Assigning the ref to control it programmatically
           draggableRange={{ top: 700, bottom: 150 }} // Set how far the panel can slide
           snappingPoints={[30, 450, 700]} // Points where the panel will snap to
           height={700} // Maximum height of the panel
-          backdropOpacity={0.3} // Set backdrop opacity for the area outside the panel
           onMomentumDragEnd={handlePanelDragEnd} // Handle drag end event
           friction={3.5} // Set friction for the panel
+          backdropOpacity={0}
         >
 
           {dragHandler => (
           <View style={styles.detailsContainer}>
-
             <View style={styles.dragHandler} {...dragHandler}>
               <View style={styles.touchBarIcon} />
             </View>
@@ -203,6 +209,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: "50%",
     marginLeft: "-40%",
+  },
+  backdrop: {
+    left: 0,
+    width: "100%",
+    height: 717.2,
   },
 });
 
