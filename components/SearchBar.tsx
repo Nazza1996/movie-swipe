@@ -19,6 +19,7 @@ const SearchBar = () => {
     <TextInput
       style={styles.text}
       placeholder="Search Movies..."
+      placeholderTextColor={"#504f63"}
       value={search}
       onChangeText={(newText) => setSearch(newText)}
       onSubmitEditing={handleSearch}
