@@ -6,6 +6,8 @@ import {
   PanGestureHandler,
 } from "react-native-gesture-handler";
 import { fetchMovieDetails, fetchMovieCredits, getPopularMovies } from "@/services/tmdb";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "@/app";
 
 const MovieList = () => {
   const [translateX] = useState(new Animated.Value(0)); // Horizontal movement
@@ -18,6 +20,7 @@ const MovieList = () => {
   const [likedList, setLikedList] = useState<any>([]); // To store liked movies
   const [dislikedList, setDislikedList] = useState<any>([]); // To store disliked movies
   
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   // Preload all movie data when the app starts
   useEffect(() => {
@@ -42,6 +45,7 @@ const MovieList = () => {
               runtime: details.runtime || "N/A",
               revenue: details.revenue || "N/A",
               production_companies: details.production_companies || "N/A",
+              backdrop_path: `https://media.themoviedb.org/t/p/original${details.backdrop_path}` || "https://www.huber-online.com/daisy_website_files/_processed_/8/0/csm_no-image_d5c4ab1322.jpg",
             };
           } else {
             return movie;
@@ -101,8 +105,15 @@ const MovieList = () => {
       useNativeDriver: true,
     }).start(() => {
 
-      likedList.push(movieData[currentIndex].title);
-      console.log(likedList);
+      setLikedList([...likedList, { 
+        id: movieData[currentIndex].id,
+        title: movieData[currentIndex].title, 
+        poster: movieData[currentIndex].poster, 
+        overview: movieData[currentIndex].overview,
+        tagline: movieData[currentIndex].tagline,
+        backdrop: movieData[currentIndex].backdrop_path,
+        status: "liked",
+      }]);
 
       setAllActions([...allActions, "like"]); // Store all actions for undo functionality
 
@@ -119,8 +130,15 @@ const MovieList = () => {
       useNativeDriver: true,
     }).start(() => {
 
-      dislikedList.push(movieData[currentIndex].title);
-      console.log(dislikedList);
+      setDislikedList([...dislikedList, {
+        id: movieData[currentIndex].id,
+        title: movieData[currentIndex].title, 
+        poster: movieData[currentIndex].poster, 
+        overview: movieData[currentIndex].overview,
+        tagline: movieData[currentIndex].tagline,
+        backdrop: movieData[currentIndex].backdrop_path,
+        status: "disliked",
+      }]);
 
       setAllActions([...allActions, "dislike"]); // Store all actions for undo functionality
 
@@ -147,9 +165,17 @@ const MovieList = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
       const lastAction = allActions[allActions.length - 1];
-      lastAction === "like" ? likedList.pop() : dislikedList.pop();
+      if (lastAction === "like") {
+        setLikedList(likedList.slice(0, -1));
+      } else if (lastAction === "dislike") {
+        setDislikedList(dislikedList.slice(0, -1));
+      }
       setAllActions(allActions.slice(0, -1));
     }
+  }
+
+  const editList = () => {
+    navigation.navigate('EditList', {likedList, dislikedList});
   }
 
   if (movieData.length === 0) {
@@ -204,10 +230,20 @@ const MovieList = () => {
         </Animated.View>
       </PanGestureHandler>
 
-      {/* Undo Button */}
-      <TouchableOpacity onPress={undo}>
-            <Image source={require("@/assets/images/undo.png")} style={styles.undoButton}></Image>
-      </TouchableOpacity>
+      <View style={{flexDirection: "row"}}>
+
+        {/* Undo Button */}
+        <TouchableOpacity onPress={undo}>
+              <Image source={require("@/assets/images/undo.png")} style={styles.undoButton}></Image>
+        </TouchableOpacity>
+
+        {/* Edit List Button */}
+        <TouchableOpacity onPress={editList}>
+              <Image source={require("@/assets/images/editList.png")} style={styles.editListButton}></Image>
+        </TouchableOpacity>
+
+      </View>
+
 
       <MovieDetails movie={currentMovie}></MovieDetails>
     </View>
@@ -249,6 +285,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#2c2b3f",
     padding: 10,
     borderRadius: 30,
+  },
+  editListButton: {
+    width: 50,
+    height: 50,
+    marginTop: 20,
+    backgroundColor: "#2c2b3f",
+    padding: 10,
+    borderRadius: 30,
+    tintColor: "white",
+    marginLeft: 20,
   },
   tickIcon: {
     width: 50,
