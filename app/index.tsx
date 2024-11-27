@@ -3,12 +3,14 @@ import { StyleSheet } from "react-native";
 import HomeScreen from "@/pages/HomeScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SearchResults from "@/pages/SearchResults";
+import EditList from "@/pages/EditList";
 
 const Stack = createNativeStackNavigator();
 
 export type RootStackParamList = {
   Home: undefined;
   SearchResults: { search: string };
+  EditList: { likedList: any; dislikedList: any };
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -28,6 +30,15 @@ export default function Index() {
         component={SearchResults}
         options={{
           title: "Search Results",
+          headerStyle: { backgroundColor: "#38374f" },
+          headerTitleStyle: { color: "#fff" },
+        }}
+      />
+      <RootStack.Screen 
+        name="EditList" 
+        component={EditList}
+        options={{
+          title: "Edit List",
           headerStyle: { backgroundColor: "#38374f" },
           headerTitleStyle: { color: "#fff" },
         }}
