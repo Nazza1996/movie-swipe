@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, StatusBar } from "react-native";
 import HomeScreen from "@/pages/HomeScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SearchResults from "@/pages/SearchResults";
@@ -12,6 +12,8 @@ export type RootStackParamList = {
   SearchResults: { search: string };
   EditList: { likedList: any; dislikedList: any };
 };
+
+StatusBar.setBarStyle("light-content", true);
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
