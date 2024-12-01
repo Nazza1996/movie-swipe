@@ -35,7 +35,9 @@ const MovieDetails = ({ movie }: { movie: any }) => {
           setPanelState("open");
         } else {
           panelRef.current.hide();
-          setPanelState("closed");
+          setTimeout(() => {
+            setPanelState("closed");
+          }, 1000);
         }
       }
     };
@@ -46,6 +48,10 @@ const MovieDetails = ({ movie }: { movie: any }) => {
       } else {
         setPanelState("open");
       }
+    };
+
+    const handlePanelDragStart = (event: any) => {
+      setPanelState("open");
     };
 
     const scrollViewRef = useRef<ScrollView>(null);
@@ -73,6 +79,7 @@ const MovieDetails = ({ movie }: { movie: any }) => {
           snappingPoints={[30, 450, 700]} // Points where the panel will snap to
           height={700} // Maximum height of the panel
           onMomentumDragEnd={handlePanelDragEnd} // Handle drag end event
+          onDragStart={handlePanelDragStart} // Handle drag start event
           friction={3.5} // Set friction for the panel
           backdropOpacity={0}
         >
@@ -90,7 +97,7 @@ const MovieDetails = ({ movie }: { movie: any }) => {
 
             <Text style={styles.tagline}>{movie.tagline || ""}</Text>
 
-            <ScrollView ref={scrollViewRef}>
+            <ScrollView ref={scrollViewRef} style={{opacity: panelState === "open" ? 1 : 0}}>
               <Text style={styles.detailsTitle}>Overview</Text>
               <Text style={styles.detailsText}>{movie.overview}</Text>
 
