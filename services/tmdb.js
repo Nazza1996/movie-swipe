@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_KEY = "00e479d88a8e9e261de7e9681beec309";
+const API_KEY = "";
 const TMDB_API_URL = "https://api.themoviedb.org/3";
 
 export const fetchMovieDetails = async (movieTitle) => {

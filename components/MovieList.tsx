@@ -150,7 +150,7 @@ const MovieList = () => {
 
   const tickColor = translateX.interpolate({
     inputRange: [-1, 0, Dimensions.get("window").width / 2, Dimensions.get("window").width],
-    outputRange: ["#2c2b3f", "#2c2b3f", "green", "green"],
+    outputRange: ["#2c2b3f", "#2c2b3f", "#10ed00", "#10ed00"],
     extrapolateLeft: "clamp",
   });
   
@@ -234,7 +234,7 @@ const MovieList = () => {
 
         {/* Undo Button */}
         <TouchableOpacity onPress={undo}>
-              <Image source={require("@/assets/images/undo.png")} style={styles.undoButton}></Image>
+              <Image source={require("@/assets/images/undo.png")} style={[styles.undoButton, {opacity: currentIndex == 0 ? 0.5 : 1}]}></Image>
         </TouchableOpacity>
 
         {/* Edit List Button */}
