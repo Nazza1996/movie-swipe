@@ -31,7 +31,6 @@ Automatically save movies you love into a neatly organized favorites list, so yo
 <p>
    <img src="https://github.com/user-attachments/assets/79e6d65c-2644-4b7a-91fb-a82f9c533cdb" height="500"/>
    <img src="https://github.com/user-attachments/assets/80448a0b-c000-4f6b-99a0-9aea21a96286" height="500"/>
-   <img src="https://github.com/user-attachments/assets/a23f5e79-f961-421e-8776-dc2d094341f7" height="500"/>
    <img src="https://github.com/user-attachments/assets/dacdd6f0-3ff0-413c-ae4b-8babb3bdeff7" height="500"/>
 </p>
 
