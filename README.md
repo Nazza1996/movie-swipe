@@ -1,50 +1,44 @@
-# Welcome to your Expo app 👋
+# 👋 Introduction
+Stuck on what to watch? This app makes choosing movies fun and effortless with an engaging Tinder-style swiping mechanism. Swipe through curated or custom lists of movies and decide what you love—or leave behind what you don’t.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+---
 
-## Get started
+## 💡 Features
+### 🎞️ Tinder-Style Swiping
+Easily swipe right to save movies you love or left to skip the ones you're not interested in.
 
-1. Install dependencies
+### 📚 Customizable Movie Lists*
+Create and upload your own movie lists, or explore pre-made collections tailored to genres, moods, or trending favorites.
 
-   ```bash
-   npm install
-   ```
+### 🤝 Collaborative Decision-Making*
+Invite friends or family to join your session and swipe together, ensuring everyone agrees on the final pick!
 
-2. Start the app
+### 🔄 Undo Swipe
+Made a mistake? Use the undo button to revisit your last decision.
 
-   ```bash
-    npx expo start
-   ```
+### 🎬 Detailed Movie Information
+Tap on a movie card to view its synopsis, cast, trailer, and more.
 
-In the output, you'll find options to open the app in a
+### ⭐ Favorites Library*
+Automatically save movies you love into a neatly organized favorites list, so you can revisit them anytime. 
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+**Feature not currently in the app*
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## 🖼️ Screenshots
 
-When you're ready, run:
+<p>
+   <img src="https://github.com/user-attachments/assets/79e6d65c-2644-4b7a-91fb-a82f9c533cdb" height="500"/>
+   <img src="https://github.com/user-attachments/assets/80448a0b-c000-4f6b-99a0-9aea21a96286" height="500"/>
+   <img src="https://github.com/user-attachments/assets/a23f5e79-f961-421e-8776-dc2d094341f7" height="500"/>
+   <img src="https://github.com/user-attachments/assets/dacdd6f0-3ff0-413c-ae4b-8babb3bdeff7" height="500"/>
+</p>
 
-```bash
-npm run reset-project
-```
+---
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 🏃‍♂️‍➡️ Running
+1. Install expo and nodeJS
+2. Download the source code
+3. Run "npm start" in the root directory
+4. View the app using your phone or an emulator.
