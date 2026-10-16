@@ -255,7 +255,7 @@ const POSTER_HEIGHT = (POSTER_WIDTH / 6) * 9;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    ...StyleSheet.absoluteFill,
     backgroundColor: "#38374f",
     alignItems: "center",
     justifyContent: "center",
@@ -265,7 +265,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#2c2b3f",
     borderRadius: 10,
     alignItems: "center",
-    zIndex: 1,
   },
   poster: {
     width: POSTER_WIDTH,

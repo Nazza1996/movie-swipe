@@ -4,6 +4,7 @@ import HomeScreen from "@/pages/HomeScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SearchResults from "@/pages/SearchResults";
 import EditList from "@/pages/EditList";
+import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,33 +20,35 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export default function Index() {
   return (
-    <RootStack.Navigator initialRouteName="Home">
-      <RootStack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <RootStack.Screen 
-        name="SearchResults" 
-        component={SearchResults}
-        options={{
-          title: "Search Results",
-          headerStyle: { backgroundColor: "#38374f" },
-          headerTitleStyle: { color: "#fff" },
-        }}
-      />
-      <RootStack.Screen 
-        name="EditList" 
-        component={EditList}
-        options={{
-          title: "Edit List",
-          headerStyle: { backgroundColor: "#38374f" },
-          headerTitleStyle: { color: "#fff" },
-        }}
-      />
-    </RootStack.Navigator>
+    <NavigationContainer>
+      <RootStack.Navigator initialRouteName="Home">
+        <RootStack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen 
+          name="SearchResults" 
+          component={SearchResults}
+          options={{
+            title: "Search Results",
+            headerStyle: { backgroundColor: "#38374f" },
+            headerTitleStyle: { color: "#fff" },
+          }}
+        />
+        <RootStack.Screen 
+          name="EditList" 
+          component={EditList}
+          options={{
+            title: "Edit List",
+            headerStyle: { backgroundColor: "#38374f" },
+            headerTitleStyle: { color: "#fff" },
+          }}
+        />
+      </RootStack.Navigator>
+    </NavigationContainer>
   );
 }
 

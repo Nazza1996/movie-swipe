@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollViewInstance } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import BottomSheet from '@gorhom/bottom-sheet';
 
-import SlidingUpPanel from "rn-sliding-up-panel";
 import Cast from "@/components/Cast";
+
+const snapPoints = [150, '60%', 700];
 
 function formatDateString(date: string) {
   return new Date(date).toDateString().split(" ").slice(1).join(" ");
@@ -25,39 +27,31 @@ const MovieDetails = ({ movie }: { movie: any }) => {
     return null;
 
   } else {
-    const panelRef = useRef<any>(null); // Ref to control panel methods
-    const [panelState, setPanelState] = useState("closed");
+    const panelRef = useRef<BottomSheet>(null); // Ref to control panel methods
+    const [panelPosition, setPanelHeight] = useState(0);
 
     const togglePanel = async () => {
-      if (panelRef.current) {
-        if (panelState === "closed") {
-          panelRef.current.show();
-          setPanelState("open");
-        } else {
-          panelRef.current.hide();
-          setTimeout(() => {
-            setPanelState("closed");
-          }, 1000);
-        }
-      }
-    };
-
-    const handlePanelDragEnd = (event: any) => {
-      if (event < 200) {
-        setPanelState("closed");
+      if (panelPosition === snapPoints.length - 1) {
+        panelRef.current?.collapse();
       } else {
-        setPanelState("open");
+        panelRef.current?.expand();
       }
     };
-
-    const handlePanelDragStart = (event: any) => {
-      setPanelState("open");
+    
+    const handlePanelDragEnd = (position: any) => {
+      setPanelHeight(position);
     };
 
-    const scrollViewRef = useRef<ScrollView>(null);
+    const scrollViewRef = useRef<ScrollViewInstance>(null);
     useEffect(() => {
       scrollViewRef.current?.scrollTo({ y: 0, animated: false });
     }, [movie]);
+    
+    useEffect(() => {
+      if (panelPosition === 0) {
+        scrollViewRef.current?.scrollTo({ y: 0, animated: false });
+      }
+    }, [panelPosition]);
 
     let genres = movie.genre.map((genre: any) => genre.name).join(", ");
     let directors = movie.crew.filter((crew: any) => crew.job === "Director").map((director: any) => director.name).join(", ") || "N/A";
@@ -66,38 +60,26 @@ const MovieDetails = ({ movie }: { movie: any }) => {
     return (
       <View style={styles.container}>
 
-        {panelState === "open" && (
-          <TouchableOpacity onPress={togglePanel}>
-            <View style={styles.backdrop} />
-          </TouchableOpacity>
-        )}
-
         {/* Sliding Panel for movie details */}
-        <SlidingUpPanel
-          ref={panelRef} // Assigning the ref to control it programmatically
-          draggableRange={{ top: 700, bottom: 150 }} // Set how far the panel can slide
-          snappingPoints={[30, 450, 700]} // Points where the panel will snap to
-          height={700} // Maximum height of the panel
-          onMomentumDragEnd={handlePanelDragEnd} // Handle drag end event
-          onDragStart={handlePanelDragStart} // Handle drag start event
-          friction={3.5} // Set friction for the panel
-          backdropOpacity={0}
+        <BottomSheet
+          ref={panelRef}
+          enableDynamicSizing={false}
+          snapPoints={snapPoints}
+          onChange={handlePanelDragEnd}
+          backgroundStyle={{ backgroundColor: "#2c2b3f" }}
+          handleIndicatorStyle={{ backgroundColor: "#38374f" }}
+          index={0}
         >
 
-          {dragHandler => (
           <View style={styles.detailsContainer}>
-            <View style={styles.dragHandler} {...dragHandler}>
-              <View style={styles.touchBarIcon} />
-            </View>
-            <View style={styles.dragHandler2} {...dragHandler} />
-
-            <TouchableOpacity onPress={togglePanel}>
+            
+            <TouchableOpacity onPress={togglePanel} activeOpacity={0.7}>
               <Text style={styles.movieName}>{movie.title}</Text>
             </TouchableOpacity>
 
             <Text style={styles.tagline}>{movie.tagline || ""}</Text>
 
-            <ScrollView ref={scrollViewRef} style={{opacity: panelState === "open" ? 1 : 0}}>
+            <ScrollView ref={scrollViewRef}>
               <Text style={styles.detailsTitle}>Overview</Text>
               <Text style={styles.detailsText}>{movie.overview}</Text>
 
@@ -130,9 +112,8 @@ const MovieDetails = ({ movie }: { movie: any }) => {
               <Text style={styles.detailsText}>{production_companies || "N/A"}</Text>
             </ScrollView>
           </View>
-          )}
 
-        </SlidingUpPanel>
+        </BottomSheet>
       </View>
     );
   }
@@ -140,12 +121,7 @@ const MovieDetails = ({ movie }: { movie: any }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "flex-end",
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-    zIndex: 100,
+    ...StyleSheet.absoluteFill,
   },
   movieName: {
     color: "#fff",
@@ -168,12 +144,13 @@ const styles = StyleSheet.create({
   detailsContainer: {
     backgroundColor: "#2c2b3f",
     padding: 20,
+    paddingBottom: 50,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     width: "100%",
     elevation: 5,
     position: "absolute",
-    height: 700,
+    height: snapPoints[2], // Set the height to the maximum snap point
   },
   detailsTitle: {
     color: "#fff",
@@ -187,35 +164,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
   },
-  dragHandler: {
-    height: 40,
-    width: "100%",
-    alignItems: 'center',
-    justifyContent: 'center',
-    top: -20,
-    left: -20,
-  },
-  dragHandler2: {
-    height: 100,
-    width: "30%",
-    position: 'absolute',
-    right: 0,
-    zIndex: 1,
-  },
   ratingLogo: {
     width: 37,
     height: 26,
     marginBottom: 10,
     marginRight: 10,
-  },
-  touchBarIcon: {
-    width: "90%",
-    height: 5,
-    backgroundColor: "#38374f",
-    borderRadius: 5,
-    position: "absolute",
-    left: "50%",
-    marginLeft: "-40%",
   },
   backdrop: {
     left: 0,

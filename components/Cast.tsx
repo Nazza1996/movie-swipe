@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from "react";
-import CastPoster from "./CastPoster";
-import { ScrollView } from "react-native";
+import CastPoster from "./castPoster";
+import { ScrollView, type ScrollViewInstance } from "react-native";
 
 const Cast = ({ cast }: { cast: any }) => {
   const MAX_CAST_MEMBERS = 15;
 
   const limitedCast = cast.slice(0, MAX_CAST_MEMBERS);
 
-  const scrollViewRef = useRef<ScrollView>(null);
+  const scrollViewRef = useRef<ScrollViewInstance | null>(null);
   useEffect(() => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
